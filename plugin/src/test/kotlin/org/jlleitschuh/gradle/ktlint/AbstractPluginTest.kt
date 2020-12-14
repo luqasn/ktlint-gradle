@@ -56,6 +56,15 @@ abstract class AbstractPluginTest {
     )
 
     protected
+    fun File.withCleanTestSources() = createSourceFile(
+            "src/test/kotlin/clean-source.kt",
+            """
+            val foo = "bar"
+            
+        """.trimIndent()
+    )
+
+    protected
     fun File.withFailingSources() = createSourceFile(
         FAIL_SOURCE_FILE,
         """

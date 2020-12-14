@@ -108,6 +108,18 @@ abstract class BaseKtlintPluginTest : AbstractPluginTest() {
     }
 
     @Test
+    fun `should not run test when linting fails`() {
+        projectRoot.apply {
+            withFailingSources()
+            withCleanTestSources()
+        }
+
+        buildAndFail("check").apply {
+            assertThat(task(":test")).isNull()
+        }
+    }
+
+    @Test
     fun `should show all ktlint tasks in task output`() {
         build("tasks", "--all").apply {
             val ktlintTasks = output

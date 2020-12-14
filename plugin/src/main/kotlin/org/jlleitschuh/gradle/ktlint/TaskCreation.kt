@@ -2,6 +2,7 @@ package org.jlleitschuh.gradle.ktlint
 
 import org.gradle.api.Project
 import org.gradle.api.file.FileTree
+import org.gradle.api.plugins.JavaPlugin
 import org.gradle.api.tasks.TaskProvider
 import org.gradle.language.base.plugins.LifecycleBasePlugin
 
@@ -76,6 +77,12 @@ internal fun setCheckTaskDependsOnKtlintCheckTask(
     project.plugins.withType(LifecycleBasePlugin::class.java) {
         project.tasks.named(LifecycleBasePlugin.CHECK_TASK_NAME).configure { task ->
             task.dependsOn(ktlintCheck)
+        }
+    }
+
+    project.plugins.withType(JavaPlugin::class.java) {
+        project.tasks.named(JavaPlugin.TEST_TASK_NAME).configure { task ->
+            task.shouldRunAfter(ktlintCheck)
         }
     }
 }
